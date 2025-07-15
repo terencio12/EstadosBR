@@ -1,0 +1,28 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #f0f8ff;
+}
+
+#mapa {
+  width: 80%;
+  margin: 0 auto;
+}
+
+path {
+  fill: #c0c0c0;
+  stroke: #333;
+  cursor: pointer;
+}
+
+path:hover {
+  fill: #87cefa;
+}
+
+.acertou {
+  fill: #32cd32 !important;
+}
+
+.errou {
+  fill: #ff4c4c !important;
+}
