@@ -2,12 +2,13 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  Acerte o Estado!
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>Acerte o Estado!</h1>
   <p id="pergunta">Clique no estado: <strong id="estadoAtual">Bahia</strong></p>
+  <div id="pontuacao">Pontos: 0</div>
+
   <div id="mapa">
     <!-- Aqui vamos colocar o SVG do mapa do Brasil -->
       <svg version="1.1" id="svg-map" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="450px" height="460px" viewBox="0 0 450 460" enable-background="new 0 0 450 460" xml:space="preserve">
@@ -315,7 +316,6 @@
     </g>
   </svg>
   </div>
-  <p id="feedback"></p>
-  <script src="script.js"></script>
+
 </body>
 </html>

@@ -1,28 +1,281 @@
+
 body {
-  font-family: sans-serif;
+  font-family: Arial, sans-serif;
   text-align: center;
-  background-color: #f0f8ff;
+  background: linear-gradient(to right, #e0f7fa, #b2ebf2), url("imagens/fundo.png") center/cover no-repeat;
+  max-height: 100%;
 }
+
+#telaJogo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* centraliza verticalmente */
+  align-items: center;       /* centraliza horizontalmente */
+  height: 100vh;             /* ocupa a tela inteira */
+  gap: 15px;                 /* espaçamento entre blocos */
+ 
+  max-width: 700px;     /* ou 600px, ou o valor que quiser */
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+    background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+
+  
+}
+
+
+#divTop {
+  display: flex;
+  flex-direction: column;   /* empilha verticalmente */
+  align-items: center;      /* centraliza horizontalmente */
+display: none;
+
+}
+
+
+/* Estilo base */
+#estadoAtualContainer {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+/* Cores por região — atualizadas */
+.norte        { background-color: #8abe26; }
+.nordeste     { background-color: #ef7d12; }
+.centro-oeste { background-color: #9b36f4; }
+.sudeste      { background-color: #fac800; color: black; } /* melhor contraste */
+.sul          { background-color: #28ace3; }
+
+
+
+#pontuacaoContainer {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+
+#tempoContainer {
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+}
+
+#feedbackContainer {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+}
+
+#legendasContainer {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  z-index: 20; /* acima do mapa (que usa 10) */
+}
+
+#infoJogo,
+#estadoAtualContainer,
+#pontuacaoContainer,
+#tempoContainer,
+#legendasContainer,
+#feedbackContainer {
+  margin: 0;
+}
+
+
+
+
+/* 🎮 Telas de início e jogo */
+#telaInicio { display: block; }
+#telaJogo { display: none; }
+
+
+
+/* 🟢 Botão padrão */
+button {
+  font-size: 20px;
+  padding: 10px 30px;
+  /*margin-top: 30px;*/
+  border: none;
+  border-radius: 8px;
+  background-color: #00796b;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  background-color: #004d40;
+}
+
+
+
 
 #mapa {
-  width: 80%;
-  margin: 0 auto;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: auto;
+  z-index: 10;
 }
 
+
+.legenda-regiao {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 6px;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  width: fit-content;
+}
+
+/* 🧭 Hover por região */
+a.norte path:hover        { fill: #8abe26; }
+a.nordeste path:hover     { fill: #ef7d12; }
+a.centro-oeste path:hover { fill: #9b36f4; }
+a.sudeste path:hover      { fill: #fac800; }
+a.sul path:hover          { fill: #28ace3; }
+
+/* 📍 Legendas de regiões fixas */
+#legendas {
+  bottom: 20px;
+  left: 20px;
+  display: block;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1000;
+}
+.legenda-regiao {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 6px;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.legenda-regiao.norte        { background-color: #8abe26; }
+.legenda-regiao.nordeste     { background-color: #ef7d12; }
+.legenda-regiao.centro-oeste { background-color: #9b36f4; }
+.legenda-regiao.sudeste      { background-color: #fac800; }
+.legenda-regiao.sul          { background-color: #28ace3; }
+
+/* 📌 Estilo dos estados */
 path {
-  fill: #c0c0c0;
-  stroke: #333;
+  fill: #b9e8fe;
+  stroke: #ff2600;
   cursor: pointer;
+  border: #F44336 solid;
+}
+a path {
+  stroke: #FFFFFF;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-path:hover {
-  fill: #87cefa;
+/* ✅ Acertos por região */
+a.norte.acertou path        { fill: #8abe26 !important; }
+a.nordeste.acertou path     { fill: #ef7d12 !important; }
+a.centro-oeste.acertou path { fill: #9b36f4 !important;  }
+a.sudeste.acertou path      { fill: #fac800 !important; }
+a.sul.acertou path          { fill: #28ace3 !important;}
+
+/* 🖱️ Hover após acerto */
+a.acertou path:hover {
+  filter: brightness(0.85);
 }
 
-.acertou {
-  fill: #32cd32 !important;
+/* ✨ Efeito de brilho animado */
+@keyframes glow {
+  0%   { filter: drop-shadow(0 0 2px white); }
+  50%  { filter: drop-shadow(0 0 6px white); }
+  100% { filter: drop-shadow(0 0 2px white); }
 }
 
+
+/* ❌ Erro temporário */
 .errou {
   fill: #ff4c4c !important;
+}
+
+#msgFim {
+  margin-top: 5px;
+  padding: 12px 24px;
+  font-size: 18px;
+  background-color: #0288d1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+
+}
+
+/* 🔁 Botão de reinício */
+#btnReiniciar {
+  margin-top: 1px;
+  padding: 12px 24px;
+  font-size: 18px;
+  background-color: #0288d1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+}
+#btnReiniciar:hover {
+  background-color: #01579b;
+}
+
+/* 📱 Responsividade */
+@media (max-width: 768px) {
+  #mapa { height: 80vh; }
+}
+@media (max-width: 480px) {
+  button {
+    font-size: 16px;
+    padding: 8px 20px;
+  }
+  .legenda-regiao {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+  #mapa {
+    height: 70vh;
+  }
+}
+
+/* 🔧 Reset box sizing */
+* {
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  #painelSuperior {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #legendas {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .legenda-regiao {
+    margin: 4px;
+    font-size: 12px;
+    padding: 4px 10px;
+  }
 }
