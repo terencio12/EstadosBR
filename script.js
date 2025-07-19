@@ -98,7 +98,6 @@ const acertos = [];
   atualizarEstadoAtual(estadoAtual, regiao);
 
   document.getElementById("estadoAtual").textContent = estadoAtual;
-  document.getElementById("feedback").textContent = "";
 }
 
 
@@ -118,6 +117,17 @@ function atualizarAcertosVisuais() {
       link.classList.remove("acertou");
     }
   });
+}
+
+function mostrarFeedback(mensagem) {
+  const feedbackEl = document.getElementById("feedbackContainer");
+  feedbackEl.textContent = mensagem;
+  feedbackEl.style.display = "block";
+
+  // Oculta após 2 segundos
+  setTimeout(() => {
+    feedbackEl.style.display = "none";
+  }, 2000);
 }
 
 // 🧠 Aplica o evento apenas uma vez por link
@@ -147,20 +157,29 @@ pontuacao += pontosRodada;
 document.getElementById("pontuacao").textContent = `Pontos: ${pontuacao}`;
       if (!acertos.includes(nomeNormalizado)) acertos.push(nomeNormalizado);
 
-      document.getElementById("feedback").textContent = "🎉 Acertou!";
+      mostrarFeedback("✅ Acertou!");
+
+  
+
+
+       
       const pos = estados.indexOf(estadoAtual);
       if (pos !== -1) estados.splice(pos, 1);
 
       atualizarAcertosVisuais();
 
       setTimeout(escolherEstado, 500);
+       feedbackEl.style.display = "none";
     } else {
       //pontuacao -= 1; // ou qualquer valor que queira para cada acerto
       if(pontuacao < 0) {pontuacao = 0}
 document.getElementById("pontuacao").textContent = `Pontos: ${pontuacao}`;
       path.classList.add("errou");
-      document.getElementById("feedback").textContent = "❌ Tente novamente!";
+
+   mostrarFeedback("❌ Errou!");
+
       setTimeout(() => path.classList.remove("errou"), 1000);
+       feedbackEl.style.display = "none";
     }
   });
 });
@@ -180,17 +199,27 @@ function atualizarEstadoAtual(nomeEstado, regiao) {
 
 function contaTempo() {
   tempoTotalInicio = Date.now();
-clearInterval(cronometroTotalInterval);
-document.getElementById("cronometroTotal").textContent = "⏳ Tempo total: 0s";
+  clearInterval(cronometroTotalInterval);
 
-cronometroTotalInterval = setInterval(() => {
-  const agora = Date.now();
-  const tempoDecorrido = agora - tempoTotalInicio;
+  cronometroTotalInterval = setInterval(() => {
+    const agora = Date.now();
+    const tempoDecorrido = agora - tempoTotalInicio;
 
-  const segundos = (tempoDecorrido / 1000).toFixed(2); // mostra até centésimos
+    const minutos     = Math.floor(tempoDecorrido / 60000);
+    const segundos    = Math.floor((tempoDecorrido % 60000) / 1000);
+    const centesimos  = Math.floor((tempoDecorrido % 1000) / 10);
+    const centStr = String(centesimos).padStart(2, "0");
 
-  document.getElementById("cronometroTotal").textContent = `⏳ Tempo total: ${segundos}s`;
-}, 100);
+    const tempoFormatado = `${minutos}:${segundos}.${centesimos}`;
+    
+
+    // Atualiza no campo de texto do círculo
+    document.querySelector(".tempoTexto").textContent =
+  `${minutos}:${segundos}.${centStr}`;
+
+    // Se quiser também manter no cronômetro digital original:
+    document.getElementById("cronometroTotal").textContent = `⏳ Tempo total: ${tempoFormatado}`;
+  }, 50);
 }
 
     function iniciarJogo() {
@@ -202,7 +231,8 @@ cronometroTotalInterval = setInterval(() => {
     }
 
     function reiniciarJogo() {
-      document.getElementById("btnReiniciar").style.display = "none";
+      document.getElementById("divTop").style.display = "none";
+       document.getElementById("estadoAtualContainer").style.display = "block";
 if (musicStarted) {
   musicStarted.currentTime = 0;
   musicStarted.play();
@@ -232,7 +262,6 @@ document.querySelectorAll("#mapa a").forEach(link => {
 
   // Atualiza placar e inicia novo estado
   document.getElementById("pontuacao").textContent = "Pontos: 0";
-  document.getElementById("feedback").textContent = "";
   escolherEstado();
 }
 

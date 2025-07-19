@@ -7,12 +7,15 @@
 </head>
 <body>
 
+
+
   <!-- Tela de pré-jogo -->
   <div id="telaInicio">
     <h1>🌎 Jogo dos Estados do Brasil</h1>
     <p>Descubra os estados o mais rápido possível para pontuar!</p>
     <button onclick="iniciarJogo()">Jogar</button>
   </div>
+
 <!-- Tela de jogo -->
  <div id="telaJogo">
     <div id="estadoAtualContainer">
@@ -25,13 +28,21 @@
     </div>
   </div>
 
-<div id="pontuacaoContainer">
+
   <div id="pontuacao">Pontos: 0</div>
-</div>
+
 
 <div id="tempoContainer">
-  <div id="cronometroTotal">⏳ Tempo total: 0s</div>
+  <div id="cronometroVisual">
+    <div class="circulo">
+      <div class="tempoTexto">0:00.00</div>
+      <div class="orbita">
+        <div class="bolinha"></div>
+      </div>
+    </div>
+  </div>
 </div>
+
 
 <div id="feedbackContainer">
   <div id="feedback"></div>
@@ -44,8 +55,8 @@
   <div class="legenda-regiao sudeste">Região Sudeste</div>
   <div class="legenda-regiao sul">Região Sul</div>
 </div> 
-
- <div id="mapa">
+      <!-- mapa -->
+        <div id="mapa">
       <!-- Aqui entra seu SVG do mapa e código do jogo -->
           <svg id="svg-map"
      viewBox="0 0 450 460"
@@ -357,6 +368,8 @@
     </g>
   </svg>
   </div>
+
+
   </div><!-- Tela de jogo -->
   <!-- 🎵 Música de fundo -->
   <audio id="musicaJogo" src="sons/musica.mp3" autoplay loop></audio>

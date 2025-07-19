@@ -4,28 +4,20 @@ body {
   text-align: center;
   background: linear-gradient(to right, #e0f7fa, #b2ebf2), url("imagens/fundo.png") center/cover no-repeat;
   max-height: 100%;
-}
-
-#telaJogo {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;   /* centraliza verticalmente */
-  align-items: center;       /* centraliza horizontalmente */
-  height: 100vh;             /* ocupa a tela inteira */
-  gap: 15px;                 /* espaçamento entre blocos */
  
-  max-width: 700px;     /* ou 600px, ou o valor que quiser */
-  width: 100%;
-  margin: 0 auto;
-  box-sizing: border-box;
-
-    background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-
-  
+  margin: 0px;
+}
+.circulo {
+  /* ... */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.tempoTexto {
+  font-size: 16px;
+  font-weight: bold;
+}
 
 #divTop {
   display: flex;
@@ -57,36 +49,140 @@ display: none;
 .sudeste      { background-color: #fac800; color: black; } /* melhor contraste */
 .sul          { background-color: #28ace3; }
 
+#telaJogo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* centraliza verticalmente */
+  align-items: center;       /* centraliza horizontalmente */
+  height: 100vh;             /* ocupa a tela inteira */
+  gap: 15px;                 /* espaçamento entre blocos */
+ 
+  max-width: 700px;     /* ou 600px, ou o valor que quiser */
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+    background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
 
 
-#pontuacaoContainer {
+}
+
+#mapa {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: auto;
+  z-index: 10;
+}
+
+#pontuacao,
+#cronometroTotal,
+#feedbackContainer {
+  font-size: 18px;
+  color: #fff;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+
+#pontuacao {
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 150px;
+  right: 80px;
+
+  
 }
 
 #tempoContainer {
   position: absolute;
-  bottom: 20px;
-  left: 30px;
+  bottom: 50px;
+  left: 50px;
 }
+
+#cronometroVisual {
+  position: absolute;
+  bottom: 100px;
+  left: 15px;
+  font-family: 'Segoe UI', sans-serif;
+  z-index: 100;
+}
+
+.circulo {
+  width: 150px;
+  height: 150px;
+  /*border: 6px solid #ccc;*/
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  overflow: hidden;
+}
+
+.orbita {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  animation: girar 2s linear infinite;
+}
+
+
+
+.bolinha {
+  width: 10px;
+  height: 10px;
+  background: #28ace3;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotate(0deg) translateX(65px) translateY(-50%);
+}
+
+
+
+@keyframes girar {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.tempoTexto {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+
+
+
+
+
+
 
 #feedbackContainer {
   position: absolute;
-  bottom: 20px;
-  right: 30px;
+  bottom: 100px;
+  right: 80px;
+  display: none;
 }
 
 #legendasContainer {
   position: absolute;
-  top: 50px;
-  left: 50px;
+  top: 20px;
+  left: 15px;
   z-index: 20; /* acima do mapa (que usa 10) */
 }
 
 #infoJogo,
 #estadoAtualContainer,
-#pontuacaoContainer,
+#pontuacao,
 #tempoContainer,
 #legendasContainer,
 #feedbackContainer {
@@ -117,20 +213,6 @@ button {
 button:hover {
   background-color: #004d40;
 }
-
-
-
-
-#mapa {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  height: auto;
-  z-index: 10;
-}
-
 
 .legenda-regiao {
   padding: 6px 12px;
@@ -279,3 +361,4 @@ a.acertou path:hover {
     padding: 4px 10px;
   }
 }
+
