@@ -66,13 +66,38 @@ const musicStarted = document.getElementById("musicaJogo");
 let pontuacao = 0;
 let tempoInicio = 0;
 let tempoResposta = 0;
-let tempoTotalInicio = 0;
+let tempoTotal = 0;
 let cronometroTotalInterval = null;
-
-
-
 let estadoAtual = "";
 const acertos = [];
+
+document.querySelectorAll('.legenda-regiao').forEach(legenda => {
+  const regiao = Array.from(legenda.classList).find(cl => cl !== "legenda-regiao");
+  const variavelCor = `--cor-${regiao}`;
+
+  legenda.addEventListener("mouseenter", () => {
+    const cor = getComputedStyle(document.documentElement).getPropertyValue(variavelCor).trim();
+
+    legenda.classList.add("hover-ativo"); // destaca a legenda
+
+    document.querySelectorAll(`#mapa a.${regiao} path`).forEach(el => {
+      el.dataset.originalFill = el.style.fill;
+      el.style.fill = cor;
+      el.style.transition = "all 0.3s ease";
+    });
+  });
+
+  legenda.addEventListener("mouseleave", () => {
+    legenda.classList.remove("hover-ativo");
+
+    document.querySelectorAll(`#mapa a.${regiao} path`).forEach(el => {
+      el.style.fill = el.dataset.originalFill || "";
+    });
+  });
+});
+
+
+
 
   function escolherEstado() {
   if (estados.length === 0) {
@@ -81,12 +106,19 @@ const acertos = [];
       musicStarted.pause();
     }
 
-    const tempoFinal = Math.floor((Date.now() - tempoTotalInicio) / 1000);
+    const tempoFinal = Math.floor((Date.now() - tempoTotal) / 1000);
+  const bonus = Math.max(0, 27 - Math.round(tempoFinal / 10)); // <-- Cálculo correto do bônus
+  pontuacao += bonus;
+
+
     document.getElementById("cronometroTotal").textContent = `⏳ Tempo total: ${tempoFinal}s`;
+   
+
     //document.getElementById("estadoAtual").textContent = "Concluído!";
     document.getElementById("estadoAtualContainer").style.display = "none";
+    document.getElementById("bolinha").style.display = "none";
+        document.getElementById("msgFim").textContent = "🏆 Você acertou todos os estados!";
     document.getElementById("divTop").style.display = "inline-block";
-    document.getElementById("feedback").textContent = "🏆 Você acertou todos os estados!";
     document.getElementById("btnReiniciar").style.display = "inline-block";
     return;
   }
@@ -137,6 +169,7 @@ document.querySelectorAll("#mapa a").forEach(function (link) {
 
   link.addEventListener("click", function (e) {
     e.preventDefault();
+    if (path.classList.contains(""));
 
     const nomeEstado = link.dataset.title?.trim() || "desconhecido";
     const nomeNormalizado = normalizar(nomeEstado);
@@ -169,7 +202,7 @@ document.getElementById("pontuacao").textContent = `Pontos: ${pontuacao}`;
       atualizarAcertosVisuais();
 
       setTimeout(escolherEstado, 500);
-       feedbackEl.style.display = "none";
+    
     } else {
       //pontuacao -= 1; // ou qualquer valor que queira para cada acerto
       if(pontuacao < 0) {pontuacao = 0}
@@ -179,7 +212,7 @@ document.getElementById("pontuacao").textContent = `Pontos: ${pontuacao}`;
    mostrarFeedback("❌ Errou!");
 
       setTimeout(() => path.classList.remove("errou"), 1000);
-       feedbackEl.style.display = "none";
+     
     }
   });
 });
@@ -198,12 +231,12 @@ function atualizarEstadoAtual(nomeEstado, regiao) {
 }
 
 function contaTempo() {
-  tempoTotalInicio = Date.now();
+  tempoTotal = Date.now();
   clearInterval(cronometroTotalInterval);
 
   cronometroTotalInterval = setInterval(() => {
     const agora = Date.now();
-    const tempoDecorrido = agora - tempoTotalInicio;
+    const tempoDecorrido = agora - tempoTotal;
 
     const minutos     = Math.floor(tempoDecorrido / 60000);
     const segundos    = Math.floor((tempoDecorrido % 60000) / 1000);
@@ -218,7 +251,7 @@ function contaTempo() {
   `${minutos}:${segundos}.${centStr}`;
 
     // Se quiser também manter no cronômetro digital original:
-    document.getElementById("cronometroTotal").textContent = `⏳ Tempo total: ${tempoFormatado}`;
+    //document.getElementById("cronometroTotal").textContent = `⏳ Tempo total: ${tempoFormatado}`;
   }, 50);
 }
 
@@ -233,6 +266,7 @@ function contaTempo() {
     function reiniciarJogo() {
       document.getElementById("divTop").style.display = "none";
        document.getElementById("estadoAtualContainer").style.display = "block";
+       document.getElementById("bolinha").style.display = "block";
 if (musicStarted) {
   musicStarted.currentTime = 0;
   musicStarted.play();

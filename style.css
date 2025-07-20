@@ -1,4 +1,3 @@
-
 body {
   font-family: Arial, sans-serif;
   text-align: center;
@@ -42,12 +41,56 @@ display: none;
   transition: background-color 0.3s ease;
 }
 
-/* Cores por região — atualizadas */
-.norte        { background-color: #8abe26; }
-.nordeste     { background-color: #ef7d12; }
-.centro-oeste { background-color: #9b36f4; }
-.sudeste      { background-color: #fac800; color: black; } /* melhor contraste */
-.sul          { background-color: #28ace3; }
+:root {
+  --cor-norte:        #4e6f13; /* verde escuro */
+  --cor-nordeste:     #b94e00; /* laranja escuro */
+  --cor-centro-oeste: #8c3fcf; /* roxo médio */
+  --cor-sudeste:      #a28000; /* amarelo escuro/dourado */
+  --cor-sul:          #006ea1; /* azul escuro */
+}
+
+
+/* Estilo base por região */
+.norte {
+  background-color: var(--cor-norte);
+  color: white;
+}
+
+.nordeste {
+  background-color: var(--cor-nordeste);
+  color: white;
+}
+
+.centro-oeste {
+  background-color: var(--cor-centro-oeste);
+  color: white;
+}
+
+.sudeste {
+  background-color: var(--cor-sudeste);
+  color: white;
+}
+
+.sul {
+  background-color: var(--cor-sul);
+  color: white;
+}
+
+/* 🧭 Hover por região */
+a.norte path:hover        { fill: var(--cor-norte); }
+a.nordeste path:hover     { fill: var(--cor-nordeste); }
+a.centro-oeste path:hover { fill: var(--cor-centro-oeste); }
+a.sudeste path:hover      { fill: var(--cor-sudeste); }
+a.sul path:hover          { fill: var(--cor-sul); }
+
+/* ✅ Acertos por região */
+a.norte.acertou path        { fill: var(--cor-norte) !important; }
+a.nordeste.acertou path     { fill: var(--cor-nordeste) !important; }
+a.centro-oeste.acertou path { fill: var(--cor-centro-oeste) !important; }
+a.sudeste.acertou path      { fill: var(--cor-sudeste) !important; }
+a.sul.acertou path          { fill: var(--cor-sul) !important; }
+
+
 
 #telaJogo {
   position: relative;
@@ -123,21 +166,22 @@ display: none;
   align-items: center;
   justify-content: center;
   background: white;
-  overflow: hidden;
+  overflow: visible;
+  border: #ccc solid 4px;
 }
 
 .orbita {
   width: 100%;
   height: 100%;
   position: absolute;
+  transform-origin: center center;
   animation: girar 2s linear infinite;
+  z-index: 2;
 }
 
-
-
 .bolinha {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
   background: #28ace3;
   border-radius: 50%;
   position: absolute;
@@ -159,25 +203,11 @@ display: none;
   color: #333;
 }
 
-
-
-
-
-
-
-
 #feedbackContainer {
   position: absolute;
   bottom: 100px;
   right: 80px;
   display: none;
-}
-
-#legendasContainer {
-  position: absolute;
-  top: 20px;
-  left: 15px;
-  z-index: 20; /* acima do mapa (que usa 10) */
 }
 
 #infoJogo,
@@ -187,6 +217,10 @@ display: none;
 #legendasContainer,
 #feedbackContainer {
   margin: 0;
+}
+
+#cronometroTotal {
+  display: none;
 }
 
 
@@ -214,22 +248,27 @@ button:hover {
   background-color: #004d40;
 }
 
+#legendasContainer {
+  position: absolute;
+  top: 20px;
+  left: 15px;
+  z-index: 20; /* acima do mapa (que usa 10) */
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* espaço de 1px entre as legendas */
+}
+
 .legenda-regiao {
-  padding: 6px 12px;
   font-size: 14px;
   font-weight: bold;
   border-radius: 6px;
   color: white;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   width: fit-content;
+  padding: 8px;
+  cursor: pointer;
+  transition: filter 0.3s ease;
 }
-
-/* 🧭 Hover por região */
-a.norte path:hover        { fill: #8abe26; }
-a.nordeste path:hover     { fill: #ef7d12; }
-a.centro-oeste path:hover { fill: #9b36f4; }
-a.sudeste path:hover      { fill: #fac800; }
-a.sul path:hover          { fill: #28ace3; }
 
 /* 📍 Legendas de regiões fixas */
 #legendas {
@@ -248,11 +287,39 @@ a.sul path:hover          { fill: #28ace3; }
   color: white;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
-.legenda-regiao.norte        { background-color: #8abe26; }
-.legenda-regiao.nordeste     { background-color: #ef7d12; }
-.legenda-regiao.centro-oeste { background-color: #9b36f4; }
-.legenda-regiao.sudeste      { background-color: #fac800; }
-.legenda-regiao.sul          { background-color: #28ace3; }
+
+.legenda-regiao.hover-ativo {
+  filter: brightness(1.3); /* clareia a cor */
+  transition: filter 0.3s ease;
+}
+
+
+
+/*legendas regioes*/
+.legenda-regiao.norte {
+  background-color: var(--cor-norte);
+  color: white;
+}
+
+.legenda-regiao.nordeste {
+  background-color: var(--cor-nordeste);
+  color: white;
+}
+
+.legenda-regiao.centro-oeste {
+  background-color: var(--cor-centro-oeste);
+  color: white;
+}
+
+.legenda-regiao.sudeste {
+  background-color: var(--cor-sudeste);
+  color: white;
+}
+
+.legenda-regiao.sul {
+  background-color: var(--cor-sul);
+  color: white;
+}
 
 /* 📌 Estilo dos estados */
 path {
@@ -267,13 +334,6 @@ a path {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-
-/* ✅ Acertos por região */
-a.norte.acertou path        { fill: #8abe26 !important; }
-a.nordeste.acertou path     { fill: #ef7d12 !important; }
-a.centro-oeste.acertou path { fill: #9b36f4 !important;  }
-a.sudeste.acertou path      { fill: #fac800 !important; }
-a.sul.acertou path          { fill: #28ace3 !important;}
 
 /* 🖱️ Hover após acerto */
 a.acertou path:hover {
@@ -361,4 +421,3 @@ a.acertou path:hover {
     padding: 4px 10px;
   }
 }
-
