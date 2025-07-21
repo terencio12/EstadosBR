@@ -107,7 +107,7 @@ document.querySelectorAll('.legenda-regiao').forEach(legenda => {
     }
 
     const tempoFinal = Math.floor((Date.now() - tempoTotal) / 1000);
-  const bonus = Math.max(0, 27 - Math.round(tempoFinal / 10)); // <-- Cálculo correto do bônus
+  const bonus = 11; // <-- bonus pra completar200
   pontuacao += bonus;
 
 
@@ -168,6 +168,9 @@ document.querySelectorAll("#mapa a").forEach(function (link) {
   if (!path) return;
 
   link.addEventListener("click", function (e) {
+    if (acertos.includes(normalizar(link.dataset.title || ""))) {
+  return; // se já foi acertado, ignora
+}
     e.preventDefault();
     if (path.classList.contains(""));
 
@@ -179,7 +182,22 @@ document.querySelectorAll("#mapa a").forEach(function (link) {
       tempoResposta = Date.now() - tempoInicio; // em milissegundos
 
 
-let pontosRapidez = Math.max(0, 3 - Math.floor(tempoResposta / 2000));
+let segundos = tempoResposta / 1000;
+let pontosRapidez = 0;
+
+if (segundos <= 2) {
+  pontosRapidez = 5;
+} else if (segundos <= 3) {
+  pontosRapidez = 4;
+} else if (segundos <= 4) {
+  pontosRapidez = 3;
+} else if (segundos <= 5) {
+  pontosRapidez = 2;
+} else if (segundos <= 6) {
+  pontosRapidez = 1;
+} else {
+  pontosRapidez = 0;
+}
 
 let pontosAcerto = 2;
 
