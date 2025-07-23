@@ -18,6 +18,20 @@ background: url("imagens/fundo.png") center/cover no-repeat;
   overflow-y: visible;
 }
 
+#mapa {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+#svg-map {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 #telaInicio {
   display: flex;
   flex-direction: column;
@@ -116,6 +130,7 @@ display: none;
 }
 
 #msgFim {
+  overflow-wrap: break-word;
   margin-top: 5px;
   padding: 16px 24px;
   font-size: 18px;
@@ -601,10 +616,86 @@ a.acertou path:hover {
       0% {
         transform: translateY(0) rotate(0deg);
       }
-      100% {
+      100% {@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  #pontuacao {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  #estadoAtualContainer h2 {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  #btnReiniciar, #btnTrocarJogador {
+    font-size: 14px;
+    padding: 8px 12px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  #menuOpcoes {
+    right: auto;
+    left: 0;
+    top: 40px;
+  }
+
+  #nomeExibido {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  #divTop {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
         transform: translateY(100vh) rotate(360deg);
       }
     }
+
+@media (max-width: 600px), (max-height: 400px) {
+    #legendasContainer,
+  #tempoContainer {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  #svg-map {
+    width: 100vw;
+    height: 85vh;
+  }
+
+  #mapa {
+    padding: 0;
+    margin: 0;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+    
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
