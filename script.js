@@ -1,4 +1,5 @@
 
+
 const estados = [
   "Acre",
   "Alagoas",
@@ -28,6 +29,37 @@ const estados = [
   "Sergipe",
   "Tocantins"
 ];
+
+const siglasPorEstado = {
+  "Acre": "AC",
+  "Alagoas": "AL",
+  "Amapá": "AP",
+  "Amazonas": "AM",
+  "Bahia": "BA",
+  "Ceará": "CE",
+  "Distrito Federal": "DF",
+  "Espírito Santo": "ES",
+  "Goiás": "GO",
+  "Maranhão": "MA",
+  "Mato Grosso": "MT",
+  "Mato Grosso do Sul": "MS",
+  "Minas Gerais": "MG",
+  "Pará": "PA",
+  "Paraíba": "PB",
+  "Paraná": "PR",
+  "Pernambuco": "PE",
+  "Piauí": "PI",
+  "Rio de Janeiro": "RJ",
+  "Rio Grande do Norte": "RN",
+  "Rio Grande do Sul": "RS",
+  "Rondônia": "RO",
+  "Roraima": "RR",
+  "Santa Catarina": "SC",
+  "São Paulo": "SP",
+  "Sergipe": "SE",
+  "Tocantins": "TO"
+};
+
 
 const regioesPorEstado = {
   "Acre": "norte",
@@ -63,6 +95,7 @@ const regioesPorEstado = {
   "Rio Grande do Sul": "sul"
 };
 const musicStarted = document.getElementById("musicaJogo");
+let musicaVitoria; // será usado para controlar o áudio da vitória
 let pontuacao = 0;
 let tempoInicio = 0;
 let tempoResposta = 0;
@@ -70,6 +103,11 @@ let tempoTotal = 0;
 let cronometroTotalInterval = null;
 let estadoAtual = "";
 const acertos = [];
+let nomeJogador = "";
+const container = document.getElementById('confetti-container');
+let confeteIntervaloId = null;
+
+
 
 document.querySelectorAll('.legenda-regiao').forEach(legenda => {
   const regiao = Array.from(legenda.classList).find(cl => cl !== "legenda-regiao");
@@ -96,6 +134,63 @@ document.querySelectorAll('.legenda-regiao').forEach(legenda => {
   });
 });
 
+function iniciarFestaDeComemoracao() {
+  // Mostra a mensagem com nome do jogador
+  document.getElementById("msgFim").textContent =
+    `🏆 Parabéns, ${nomeJogador.toUpperCase()}! Você conquistou todos os estados! 🎉`;
+
+  // Exibe o botão de reinício e mensagem final
+  document.getElementById("divTop").style.display = "flex";
+
+  // Remove nome do canto superior e legendas
+  document.getElementById("legendasContainer").style.display = "none";
+
+  // Ativa confetes 🎊
+  lancaConfetesFixos();
+   // Criar vários confetes continuamente
+    confeteIntervaloId = setInterval(lancaConfetesFixos, 100);
+    
+
+  // Toca música de comemoração 🎶
+musicaVitoria = new Audio("sons/vitoria.mp3");
+musicaVitoria.volume = 1;
+musicaVitoria.play();
+
+
+}
+
+function lancaConfetesFixos() {
+ const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      
+      // Cores aleatórias
+      const colors = ['#f94144', '#f3722c', '#f9c74f', '#90be6d', '#577590', '#43aa8b', '#f94144', '#f3722c', '#f9c74f', '#90be6d', '#577590', '#43aa8b',
+  '#ff0055', '#00eaff', '#39ff14', '#ffae00', '#c300ff',
+  '#ff4ecd', '#00ffcc', '#ffd300', '#ff6f00', '#0099ff'];
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+      // Posição horizontal aleatória
+      confetti.style.left = `${Math.random() * 100}vw`;
+
+      // Tamanho aleatório
+      const size = Math.random() * 8 + 4;
+      confetti.style.width = `${size}px`;
+      confetti.style.height = `${size}px`;
+
+      // Duração e delay da animação
+      confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      confetti.style.animationDelay = `${Math.random()}s`;
+
+      container.appendChild(confetti);
+
+      // Remover após a animação
+      let chuva = setTimeout(() => confetti.remove(), 5000);
+ }
+
+
+
+
+
 
 
 
@@ -106,18 +201,28 @@ document.querySelectorAll('.legenda-regiao').forEach(legenda => {
       musicStarted.pause();
     }
 
-    const tempoFinal = Math.floor((Date.now() - tempoTotal) / 1000);
+   
+
   const bonus = 11; // <-- bonus pra completar200
   pontuacao += bonus;
 
+   document.getElementById("pontuacao").textContent = `Pontos: ${pontuacao}`;
 
-    document.getElementById("cronometroTotal").textContent = `⏳ Tempo total: ${tempoFinal}s`;
+
+    //document.getElementById("cronometroTotal").textContent = `⏳ Tempo total: ${tempoFinal}s`;
    
 
     //document.getElementById("estadoAtual").textContent = "Concluído!";
+    document.getElementById("legendasContainer").style.display = "none";
+    document.getElementById("nomeExibido").style.display = "none";
     document.getElementById("estadoAtualContainer").style.display = "none";
     document.getElementById("bolinha").style.display = "none";
-        document.getElementById("msgFim").textContent = "🏆 Você acertou todos os estados!";
+
+if (pontuacao >= 200) {
+  iniciarFestaDeComemoracao(); // 🎉 aqui vem a magia
+}
+
+    document.getElementById("msgFim").textContent = "👏 PARABÉNS " + nomeJogador.toUpperCase() + " Você acertou todos os estados!";
     document.getElementById("divTop").style.display = "inline-block";
     document.getElementById("btnReiniciar").style.display = "inline-block";
     return;
@@ -154,12 +259,23 @@ function atualizarAcertosVisuais() {
 function mostrarFeedback(mensagem) {
   const feedbackEl = document.getElementById("feedbackContainer");
   feedbackEl.textContent = mensagem;
+
+  if (mensagem.includes("✅")) {
+    feedbackEl.style.backgroundColor = "#ffffffff";
+    feedbackEl.classList.add("fundo-acertou");
+    feedbackEl.classList.remove("fundo-errou");
+  } else {
+    feedbackEl.style.backgroundColor = "#ffffffff";
+    feedbackEl.classList.add("fundo-errou");
+    feedbackEl.classList.remove("fundo-acertou");
+  }
+
   feedbackEl.style.display = "block";
 
-  // Oculta após 2 segundos
   setTimeout(() => {
     feedbackEl.style.display = "none";
-  }, 2000);
+    feedbackEl.classList.remove("fundo-acertou", "fundo-errou");
+  }, 500);
 }
 
 // 🧠 Aplica o evento apenas uma vez por link
@@ -185,13 +301,13 @@ document.querySelectorAll("#mapa a").forEach(function (link) {
 let segundos = tempoResposta / 1000;
 let pontosRapidez = 0;
 
-if (segundos <= 2) {
+if (segundos <= 4) {
   pontosRapidez = 5;
-} else if (segundos <= 3) {
+} else if (segundos <= 4.5) {
   pontosRapidez = 4;
-} else if (segundos <= 4) {
-  pontosRapidez = 3;
 } else if (segundos <= 5) {
+  pontosRapidez = 3;
+} else if (segundos <= 5.5) {
   pontosRapidez = 2;
 } else if (segundos <= 6) {
   pontosRapidez = 1;
@@ -207,13 +323,7 @@ pontuacao += pontosRodada;
 
 document.getElementById("pontuacao").textContent = `Pontos: ${pontuacao}`;
       if (!acertos.includes(nomeNormalizado)) acertos.push(nomeNormalizado);
-
       mostrarFeedback("✅ Acertou!");
-
-  
-
-
-       
       const pos = estados.indexOf(estadoAtual);
       if (pos !== -1) estados.splice(pos, 1);
 
@@ -229,7 +339,7 @@ document.getElementById("pontuacao").textContent = `Pontos: ${pontuacao}`;
 
    mostrarFeedback("❌ Errou!");
 
-      setTimeout(() => path.classList.remove("errou"), 1000);
+      setTimeout(() => path.classList.remove("errou"), 500);
      
     }
   });
@@ -259,6 +369,7 @@ function contaTempo() {
     const minutos     = Math.floor(tempoDecorrido / 60000);
     const segundos    = Math.floor((tempoDecorrido % 60000) / 1000);
     const centesimos  = Math.floor((tempoDecorrido % 1000) / 10);
+    const segStr = String(segundos).padStart(2, "0");
     const centStr = String(centesimos).padStart(2, "0");
 
     const tempoFormatado = `${minutos}:${segundos}.${centesimos}`;
@@ -266,27 +377,54 @@ function contaTempo() {
 
     // Atualiza no campo de texto do círculo
     document.querySelector(".tempoTexto").textContent =
-  `${minutos}:${segundos}.${centStr}`;
+  `${minutos}:${segStr}.${centStr}`;
 
     // Se quiser também manter no cronômetro digital original:
     //document.getElementById("cronometroTotal").textContent = `⏳ Tempo total: ${tempoFormatado}`;
   }, 50);
 }
 
-    function iniciarJogo() {
-      contaTempo();
-      document.getElementById("telaInicio").style.display = "none";
-      document.getElementById("telaJogo").style.display = "block";
-      startMusic();
-      escolherEstado(); 
-    }
+
+function getName() {
+  return document.getElementById("nomeJogador").value.trim();
+}
+
+function iniciarJogo(nome) {
+ nomeJogador = getName();
+
+  if (nomeJogador === "") {
+    alert("Por favor, digite seu nome antes de começar o jogo.");
+    return;
+  }
+
+  document.getElementById("nomeExibido").textContent = `👤 ${nomeJogador.toUpperCase()}`;
+  document.getElementById("telaInicio").style.display = "none";
+  document.getElementById("telaJogo").style.display = "block";
+
+  startMusic();
+  contaTempo();
+  escolherEstado();
+}
+
+
 
     function reiniciarJogo() {
+
       document.getElementById("divTop").style.display = "none";
+      document.getElementById("legendasContainer").style.display = "block";
+      document.getElementById("nomeExibido").style.display = "block";
        document.getElementById("estadoAtualContainer").style.display = "block";
        document.getElementById("bolinha").style.display = "block";
+       pararMusicas();
+       
+if (confeteIntervaloId) {
+    clearInterval(confeteIntervaloId);
+    confeteIntervaloId = null;
+  }
+
 if (musicStarted) {
   musicStarted.currentTime = 0;
+  musicStarted.volume = 1;
   musicStarted.play();
 }
 
@@ -326,5 +464,35 @@ function startMusic() {
     });
   }
 }
+
+function pararMusicas() {
+  const audios = [musicStarted, musicaVitoria]; // adicione outros se houver
+
+  audios.forEach(audio => {
+    if (audio && typeof audio.pause === "function") {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  });
+}
+
+function prepararConfetesFixos() {
+  const container = document.getElementById("chuvaConfetes");
+  for (let i = 0; i < 100; i++) {
+    const confete = document.createElement("div");
+    confete.classList.add("confete");
+    confete.style.left = Math.random() * window.innerWidth + "px";
+    confete.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+    container.appendChild(confete);
+  }
+}
+
+
+
+
+
+
+
+
 
 

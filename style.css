@@ -1,11 +1,100 @@
 body {
+background: url("imagens/fundo.png") center/cover no-repeat;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-size: 100%;
+
+
   font-family: Arial, sans-serif;
   text-align: center;
-  background: linear-gradient(to right, #e0f7fa, #b2ebf2), url("imagens/fundo.png") center/cover no-repeat;
+
   max-height: 100%;
  
   margin: 0px;
+  height: 100vh;  
+
+  overflow-x: visible;
+  overflow-y: visible;
 }
+
+#telaInicio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 90%;
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 20px;
+  
+  background: rgba(0, 0, 0, 0.4); /* fundo escuro semi-transparente */
+  border: 2px solid red;
+  border-radius: 12px;
+
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  backdrop-filter: blur(4px); /* efeito de vidro fosco */
+  box-shadow: 0 0 10px rgba(0,0,0,0.3); /* sombra leve */
+}
+
+
+
+#telaJogo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* centraliza verticalmente */
+  align-items: center;       /* centraliza horizontalmente */
+  height: 100vh;             /* ocupa a tela inteira */
+  gap: 15px;                 /* espaçamento entre blocos */
+ 
+  max-width: 700px;     /* ou 600px, ou o valor que quiser */
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+    background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+
+  background: rgba(0, 0, 0, 0.4); /* fundo escuro semi-transparente */
+  border: 2px solid red;
+  border-radius: 12px;
+    backdrop-filter: blur(4px); /* efeito de vidro fosco */
+  box-shadow: 0 0 10px rgba(0,0,0,0.3); /* sombra leve */
+}
+
+
+#campoNomeJogador {
+  margin-bottom: 20px; /* ou 24px, se quiser mais respiro */
+}
+
+#nomeJogador {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #0288d1;
+  border-radius: 10px; /* 👈 arredonda os cantos */
+  width: 80%;
+  max-width: 300px;
+}
+
+
+#nomeExibido {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px #000;
+  z-index: 20;
+}
+
+
+
 .circulo {
   /* ... */
   display: flex;
@@ -23,29 +112,43 @@ body {
   flex-direction: column;   /* empilha verticalmente */
   align-items: center;      /* centraliza horizontalmente */
 display: none;
-
+  gap: 16px; /* espaço entre texto e botão */
 }
 
-
-/* 
-#estadoAtualContainer {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 5px 10px;
+#msgFim {
+  margin-top: 5px;
+  padding: 16px 24px;
+  font-size: 18px;
+  background-color: #0288d1;
+  color: white;
+  border: none;
   border-radius: 8px;
-  color: rgb(255, 255, 255);
-  font-weight: bold;
+  max-width: 90%;
+  width: fit-content;
   text-align: center;
-  transition: background-color 0.3s ease;
-  
+  word-break: break-word;  /* evita que nomes longos quebrem feio */
 }
-  */
 
-:root {
-  --cor-ativa: #4e6f13; /* valor default */
+
+/* 🔁 Botão de reinício */
+#btnReiniciar, #btnJogar {
+  margin-top: 1px;
+  padding: 12px 24px;
+  font-size: 18px;
+  background-color: #0288d1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+
 }
+
+#btnReiniciar:hover, #btnTrocarJogador:hover {
+  background-color: #01579b;
+}
+
+
 
 @keyframes piscarFundo {
   0%   { background-color: var(--cor-ativa); }
@@ -100,6 +203,7 @@ display: none;
   --cor-centro-oeste: #8c3fcf; /* roxo médio */
   --cor-sudeste:      #a28000; /* amarelo escuro/dourado */
   --cor-sul:          #006ea1; /* azul escuro */
+   --cor-ativa:       #4e6f13; /* valor default */
 }
 
 
@@ -147,26 +251,6 @@ a.sul.acertou path          { fill: var(--cor-sul) !important; }
 
 
 
-#telaJogo {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;   /* centraliza verticalmente */
-  align-items: center;       /* centraliza horizontalmente */
-  height: 100vh;             /* ocupa a tela inteira */
-  gap: 15px;                 /* espaçamento entre blocos */
- 
-  max-width: 700px;     /* ou 600px, ou o valor que quiser */
-  width: 100%;
-  margin: 0 auto;
-  box-sizing: border-box;
-
-    background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-
-
-}
 
 #mapa {
   position: fixed;
@@ -263,7 +347,7 @@ a.sul.acertou path          { fill: var(--cor-sul) !important; }
 .bolinha {
   width: 10px;
   height: 10px;
-  background:  #070086;
+  background:  #000000;
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -285,10 +369,12 @@ a.sul.acertou path          { fill: var(--cor-sul) !important; }
 }
 
 #feedbackContainer {
+  background-color: ""; /* limpa conflito */
   position: absolute;
-  bottom: 100px;
+  bottom: 80px;
   right: 80px;
   display: none;
+  transition: background-color 0.3s ease;
 }
 
 #infoJogo,
@@ -307,8 +393,10 @@ a.sul.acertou path          { fill: var(--cor-sul) !important; }
 
 
 
-/* 🎮 Telas de início e jogo */
-#telaInicio { display: block; }
+
+#jogador {
+  border-radius: 8px;
+}
 #telaJogo { display: none; }
 
 
@@ -336,7 +424,7 @@ button:hover {
   z-index: 20; /* acima do mapa (que usa 10) */
   display: flex;
   flex-direction: column;
-  gap: 4px; /* espaço de 1px entre as legendas */
+  gap: 8px; /* espaço de 1px entre as legendas */
 }
 
 .legenda-regiao {
@@ -362,7 +450,7 @@ button:hover {
 }
 .legenda-regiao {
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   border-radius: 6px;
   color: white;
@@ -405,9 +493,7 @@ button:hover {
 /* 📌 Estilo dos estados */
 path {
   fill: #b9e8fe;
-  stroke: #ff2600;
   cursor: pointer;
-  border: #F44336 solid;
 }
 a path {
   stroke: #FFFFFF;
@@ -434,33 +520,20 @@ a.acertou path:hover {
   fill: #ff4c4c !important;
 }
 
-#msgFim {
-  margin-top: 5px;
-  padding: 12px 24px;
-  font-size: 18px;
-  background-color: #0288d1;
-  color: white;
-  border: none;
-  border-radius: 8px;
-
-}
-
-/* 🔁 Botão de reinício */
-#btnReiniciar {
-  margin-top: 1px;
-  padding: 12px 24px;
-  font-size: 18px;
-  background-color: #0288d1;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+.fundo-acertou {
+  color: green !important;
   font-weight: bold;
+  border: green solid 4px;
+}
 
+.fundo-errou {
+  color: rgb(255, 0, 0) !important;
+  font-weight: bold;
+  border: red solid 4px;
 }
-#btnReiniciar:hover {
-  background-color: #01579b;
-}
+
+
+
 
 /* 📱 Responsividade */
 @media (max-width: 768px) {
@@ -503,3 +576,35 @@ a.acertou path:hover {
     padding: 4px 10px;
   }
 }
+
+  #confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      opacity: 0.8;
+      border-radius: 50%;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+
+

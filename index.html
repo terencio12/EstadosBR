@@ -4,8 +4,13 @@
   <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css" />
   <title>Jogo dos Estados</title>
+
+
 </head>
 <body>
+   <div id="confetti-container"></div>
+
+
 
 
 
@@ -13,11 +18,17 @@
   <div id="telaInicio">
     <h1>🌎 Jogo dos Estados do Brasil</h1>
     <p>Descubra os estados o mais rápido possível para pontuar!</p>
-    <button onclick="iniciarJogo()">Jogar</button>
+    <div id="campoNomeJogador">
+  <label for="nomeJogador">Digite seu nome:</label>
+  <input type="text" id="nomeJogador" placeholder="Seu nome" />
+</div>
+    <button id="btnJogar" onclick="iniciarJogo()">Jogar</button>
   </div>
+
 
 <!-- Tela de jogo -->
  <div id="telaJogo">
+<div id="nomeExibido" onclick="mostrarBotaoTrocar()"></div>
     <div id="estadoAtualContainer">
       <h2 id="estadoAtual">Estado Atual</h2>
     </div>
@@ -28,8 +39,7 @@
     </div>
   </div>
 
-
-  <div id="pontuacao">Pontos: 0</div>
+  <div id="pontuacao"> Pontos: 0</div>
 
 
 <div id="tempoContainer">
@@ -72,6 +82,7 @@
         <path  d="M289.558,235.641
         c16.104,0.575,44.973-31.647,44.835-45.259c-0.136-13.612-17.227-58.446-22.349-66.088c-5.122-7.628-37.905,2.506-37.905,2.506
         S234.852,233.695,289.558,235.641z"></path>
+        <text class="sigla visivel" x="340" y="260">BA</text>
       </a>
       <a  class="nordeste" data-title="Bahia">
         <path  d="M313.276,197.775
@@ -82,6 +93,7 @@
         c1.148,4.959-0.821,8.6-1.808,13.42c-0.822,4.162-0.219,8.299-0.987,12.297c-0.271,1.286-4.407,5.723-5.559,7.148
         c-1.616-1.426-63.952-37.248-73.1-36.265c1.149-3.738,2.438-9.559-0.741-12.723c-8.625-8.572-0.135-19.335-0.162-19.432
         c-0.546-1.725-5.396-6.079-0.026-7.175c-3.175,0.959-1.944-4.027,0.875-3.012C316.726,200.733,314.044,200.527,313.276,197.775z"></path>
+       
       </a>
       <a  class="nordeste" data-title="Sergipe">
         <path  d="M408.561,191.735
@@ -373,6 +385,7 @@
     </g>
   </svg>
   </div>
+  
 
 
   </div><!-- Tela de jogo -->

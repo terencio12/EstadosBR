@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Chuva de Confetes</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: white;
+    }
+
+    #confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      opacity: 0.8;
+      border-radius: 50%;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="confetti-container"></div>
+
+  <script>
+    const container = document.getElementById('confetti-container');
+
+    function createConfetti() {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      
+      // Cores aleatórias
+      const colors = ['#f94144', '#f3722c', '#f9c74f', '#90be6d', '#577590', '#43aa8b'];
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+      // Posição horizontal aleatória
+      confetti.style.left = `${Math.random() * 100}vw`;
+
+      // Tamanho aleatório
+      const size = Math.random() * 8 + 4;
+      confetti.style.width = `${size}px`;
+      confetti.style.height = `${size}px`;
+
+      // Duração e delay da animação
+      confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      confetti.style.animationDelay = `${Math.random()}s`;
+
+      container.appendChild(confetti);
+
+      // Remover após a animação
+      setTimeout(() => confetti.remove(), 5000);
+    }
+
+    // Criar vários confetes continuamente
+    setInterval(createConfetti, 100);
+  </script>
+</body>
+</html>
