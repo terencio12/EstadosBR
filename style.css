@@ -305,7 +305,7 @@ a.sul.acertou path          { fill: var(--cor-sul) !important; }
 
 #cronometroVisual {
   position: absolute;
-  bottom: 100px;
+  bottom: 15px;
   left: 15px;
   font-family: 'Segoe UI', sans-serif;
   z-index: 100;
