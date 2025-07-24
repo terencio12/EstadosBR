@@ -1,4 +1,8 @@
 body {
+  
+  overflow-x: hidden;
+
+
 background: url("imagens/fundo.png") center/cover no-repeat;
   background-repeat: no-repeat;
   background-size: cover;
@@ -75,7 +79,6 @@ background: url("imagens/fundo.png") center/cover no-repeat;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
 
   background: rgba(0, 0, 0, 0.4); /* fundo escuro semi-transparente */
-  border: 2px solid red;
   border-radius: 12px;
     backdrop-filter: blur(4px); /* efeito de vidro fosco */
   box-shadow: 0 0 10px rgba(0,0,0,0.3); /* sombra leve */
@@ -291,10 +294,12 @@ a.sul.acertou path          { fill: var(--cor-sul) !important; }
   position: absolute;
   top: 150px;
   right: 80px;
-  font-size: 20px;
   font-weight: bold;
     background:  #0288d1;
     padding: 15px;
+        font-size: 16px;
+    text-align: center;
+    margin-bottom: 12px;
 }
 
 #tempoContainer {
@@ -390,6 +395,7 @@ a.sul.acertou path          { fill: var(--cor-sul) !important; }
   right: 80px;
   display: none;
   transition: background-color 0.3s ease;
+
 }
 
 #infoJogo,
@@ -622,11 +628,7 @@ a.acertou path:hover {
     padding: 8px;
   }
 
-  #pontuacao {
-    font-size: 16px;
-    text-align: center;
-    margin-bottom: 12px;
-  }
+
 
   #estadoAtualContainer h2 {
     font-size: 18px;
@@ -664,11 +666,11 @@ a.acertou path:hover {
     }
 
 @media (max-width: 600px), (max-height: 400px) {
-    #legendasContainer,
-  #tempoContainer {
-    display: none;
+    #legendasContainer{
+       left: 0px;
   }
 }
+
 
 @media (max-width: 600px) {
   #svg-map {
@@ -686,6 +688,107 @@ a.acertou path:hover {
     
   }
 }
+
+@media (max-width: 600px) {
+  body {
+    background-image: url("imagens/fundo-mobile.png"); /* versão vertical */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+@media (max-width: 600px) {
+  #nomeExibido {
+display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  #feedbackContainer {
+  bottom: 15px;
+  right: 15px;
+}
+}
+
+@media (max-width: 600px), (max-height: 400px) {
+    #tempoContainer {
+  bottom: 10px;
+  left: 15px;
+}
+}
+
+
+
+
+@media (max-width: 600px), (max-height: 400px) {
+    .circulo-wrapper {
+  width: 115px;
+  height: 115px;
+}
+}
+
+
+
+@media (max-width: 600px), (max-height: 400px) {
+    .fundo-circulo {
+  width: 115px;
+  height: 115px;
+}
+}
+
+
+
+
+@media (max-width: 600px), (max-height: 400px) {
+    .circulo{
+   width: 100px;
+  height: 100px;
+  }
+}
+
+@media (max-width: 600px), (max-height: 400px) {
+      .bolinha {
+  width: 12px;
+  height: 12px;
+    transform: rotate(0deg) translateX(49px) translateY(-50%);
+}
+}
+
+
+@media (max-width: 600px), (max-height: 400px) {
+   #estadoAtualContainer {
+    top: 200px;
+   left: 60%;
+  
+}
+
+}
+
+@media (max-width: 600px), (max-height: 400px) {
+  #pontuacao {
+ 
+  top: 20px;
+  right: 15px;
+
+    padding: 10px;
+        font-size: 16px;
+    
+  
+  
+
+}
+
+}
+
+
+
+
+
+
+
+
+
 
 
 

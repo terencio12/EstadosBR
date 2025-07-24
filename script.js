@@ -109,6 +109,14 @@ let confeteIntervaloId = null;
 
 
 
+
+document.getElementById("svg-map").addEventListener("click", () => {
+  document.body.style.transform = "scale(1)";
+  document.body.style.transformOrigin = "top left";
+
+  // Alternativamente, centraliza visual
+  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+});
 document.querySelectorAll('.legenda-regiao').forEach(legenda => {
   const regiao = Array.from(legenda.classList).find(cl => cl !== "legenda-regiao");
   const variavelCor = `--cor-${regiao}`;
@@ -486,6 +494,11 @@ function prepararConfetesFixos() {
     container.appendChild(confete);
   }
 }
+
+window.addEventListener("beforeunload", () => {
+  pararMusicas(); // função que pausa todos os áudios
+});
+
 
 
 
