@@ -94,7 +94,19 @@ const regioesPorEstado = {
   "Santa Catarina": "sul",
   "Rio Grande do Sul": "sul"
 };
+
 const musicStarted = document.getElementById("musicaJogo");
+
+document.getElementById("btnJogar").addEventListener("click", () => {
+  musicStarted.play();
+});
+
+musicStarted.addEventListener("ended", () => {
+  musicStarted.currentTime = 0;
+  musicStarted.play();
+});
+
+
 let musicaVitoria; // será usado para controlar o áudio da vitória
 let pontuacao = 0;
 let tempoInicio = 0;
@@ -154,9 +166,13 @@ function iniciarFestaDeComemoracao() {
   document.getElementById("legendasContainer").style.display = "none";
 
   // Ativa confetes 🎊
+  setTimeout(() => {
   lancaConfetesFixos();
+}, 50); // pequeno delay pra esperar DOM estabilizar
    // Criar vários confetes continuamente
     confeteIntervaloId = setInterval(lancaConfetesFixos, 100);
+        // Criar vários confetes continuamente
+    
     
 
   // Toca música de comemoração 🎶
@@ -168,6 +184,12 @@ musicaVitoria.play();
 }
 
 function lancaConfetesFixos() {
+  if (!container || container.offsetWidth === 0 || container.offsetHeight === 0) {
+    console.warn("Container não está pronto ou visível");
+    return;
+  }
+
+  
  const confetti = document.createElement('div');
       confetti.classList.add('confetti');
       
@@ -196,12 +218,6 @@ function lancaConfetesFixos() {
  }
 
 
-
-
-
-
-
-
   function escolherEstado() {
   if (estados.length === 0) {
     clearInterval(cronometroTotalInterval);
@@ -226,7 +242,7 @@ function lancaConfetesFixos() {
     document.getElementById("estadoAtualContainer").style.display = "none";
     document.getElementById("bolinha").style.display = "none";
 
-if (pontuacao >= 200) {
+if (pontuacao >= 100) {
   iniciarFestaDeComemoracao(); // 🎉 aqui vem a magia
 }
 
@@ -495,8 +511,12 @@ function prepararConfetesFixos() {
   }
 }
 
-window.addEventListener("beforeunload", () => {
-  pararMusicas(); // função que pausa todos os áudios
+window.addEventListener("beforeunload", function () {
+  const audio = document.getElementById("meuAudio");
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0; // Reinicia do começo
+  }
 });
 
 
