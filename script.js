@@ -96,6 +96,7 @@ const regioesPorEstado = {
 };
 
 const musicStarted = document.getElementById("musicaJogo");
+const musicaConclusao = document.getElementById("musicaConclusao");
 
 document.getElementById("btnJogar").addEventListener("click", () => {
   musicStarted.play();
@@ -224,8 +225,12 @@ function lancaConfetesFixos() {
     if (musicStarted && typeof musicStarted.pause === "function") {
       musicStarted.pause();
     }
-
-   
+    if (estados.length === 0 && pontuacao < 200) {
+    musicaConclusao.currentTime = 0;
+    musicaConclusao.play().catch(err => {
+      console.warn("Reprodução bloqueada:", err);
+    });
+  }
 
   const bonus = 11; // <-- bonus pra completar200
   pontuacao += bonus;
@@ -242,7 +247,7 @@ function lancaConfetesFixos() {
     document.getElementById("estadoAtualContainer").style.display = "none";
     document.getElementById("bolinha").style.display = "none";
 
-if (pontuacao >= 100) {
+if (pontuacao >= 200) {
   iniciarFestaDeComemoracao(); // 🎉 aqui vem a magia
 }
 
@@ -259,6 +264,7 @@ if (pontuacao >= 100) {
   atualizarEstadoAtual(estadoAtual, regiao);
 
   document.getElementById("estadoAtual").textContent = estadoAtual;
+
 }
 
 

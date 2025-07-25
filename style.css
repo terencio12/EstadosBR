@@ -358,15 +358,15 @@ a.sul.acertou path          { fill: var(--cor-sul) !important; }
   height: 100%;
   position: absolute;
   transform-origin: center center;
-  animation: girar 2s linear infinite;
+  animation: girar 1.3s linear infinite;
   z-index: 2;
 
   
 }
 
 .bolinha {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   background:  #000000;
   border-radius: 50%;
   position: absolute;
@@ -702,12 +702,6 @@ a.acertou path:hover {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-  }
-}
-
-@media (max-width: 600px) {
-  #nomeExibido {
-display: none;
   }
 }
 
