@@ -47,7 +47,6 @@ background: url("imagens/fundo.png") center/cover no-repeat;
   padding: 20px;
   
   background: rgba(0, 0, 0, 0.4); /* fundo escuro semi-transparente */
-  border: 2px solid red;
   border-radius: 12px;
 
   font-weight: bold;
@@ -786,6 +785,18 @@ a.acertou path:hover {
   border-radius: 0px;
   max-width: 100%;
 
+}
+}
+
+
+
+@media (max-width: 600px), (max-height: 400px) {
+    @media screen and (orientation: landscape) {
+  body {
+    display: none;
+    /* ou: */
+    /* content: "Por favor, vire o dispositivo para o modo retrato." */
+  }
 }
 }
 

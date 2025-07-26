@@ -119,8 +119,21 @@ const acertos = [];
 let nomeJogador = "";
 const container = document.getElementById('confetti-container');
 let confeteIntervaloId = null;
+let segundos = tempoResposta / 1000;
+let pontosRapidez = 0;
 
 
+let ultimaOrientacao = window.innerWidth > window.innerHeight ? "landscape" : "portrait";
+
+window.addEventListener("resize", () => {
+  const orientacaoAtual = window.innerWidth > window.innerHeight ? "landscape" : "portrait";
+
+  if (orientacaoAtual === "landscape" && ultimaOrientacao !== "landscape") {
+    alert("Por favor, vire o dispositivo para o modo retrato!");
+  }
+
+  ultimaOrientacao = orientacaoAtual;
+});
 
 
 document.getElementById("svg-map").addEventListener("click", () => {
@@ -328,8 +341,7 @@ document.querySelectorAll("#mapa a").forEach(function (link) {
       tempoResposta = Date.now() - tempoInicio; // em milissegundos
 
 
-let segundos = tempoResposta / 1000;
-let pontosRapidez = 0;
+
 
 if (segundos <= 4) {
   pontosRapidez = 5;
@@ -439,7 +451,10 @@ function iniciarJogo(nome) {
 
 
     function reiniciarJogo() {
+      musicaVitoria.pause();
+      musicaVitoria.currentTime = 0;
 
+      pontosRapidez = 0;
       document.getElementById("divTop").style.display = "none";
       document.getElementById("legendasContainer").style.display = "block";
       document.getElementById("nomeExibido").style.display = "block";
