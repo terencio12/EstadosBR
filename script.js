@@ -119,7 +119,6 @@ const acertos = [];
 let nomeJogador = "";
 const container = document.getElementById('confetti-container');
 let confeteIntervaloId = null;
-let segundos = tempoResposta / 1000;
 let pontosRapidez = 0;
 
 
@@ -339,9 +338,8 @@ document.querySelectorAll("#mapa a").forEach(function (link) {
 
     if (nomeNormalizado === estadoNormalizado) {
       tempoResposta = Date.now() - tempoInicio; // em milissegundos
-
-
-
+      const segundos = tempoResposta / 1000;
+console.log(tempoResposta);
 
 if (segundos <= 4) {
   pontosRapidez = 5;
@@ -362,6 +360,7 @@ let pontosAcerto = 2;
 // 🧮 Soma total: máx 100
 let pontosRodada = pontosAcerto + pontosRapidez;
 pontuacao += pontosRodada;
+document.getElementById("pontuacao").textContent = `Pontos: ${pontuacao}`;
 
 document.getElementById("pontuacao").textContent = `Pontos: ${pontuacao}`;
       if (!acertos.includes(nomeNormalizado)) acertos.push(nomeNormalizado);
