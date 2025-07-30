@@ -451,11 +451,10 @@ function iniciarJogo(nome) {
 
 
     function reiniciarJogo() {
-if (musicaVitoria && typeof musicaVitoria.pause === 'function') {
+      if (musicaVitoria && typeof musicaVitoria.pause === 'function') {
   musicaVitoria.pause();
   musicaVitoria.currentTime = 0;
 }
-
 
       pontosRapidez = 0;
       document.getElementById("divTop").style.display = "none";
